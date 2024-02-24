@@ -1,16 +1,15 @@
 import streamlit as st
-import pytesseract
-from PIL import Image
+from google.cloud import vision
 from googletrans import Translator
 from dialogflow import DialogflowV2Client
 
-# Set Tesseract path (adjust based on your installation)
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+# Replace with your Google Cloud project ID
+project_id = "YOUR_PROJECT_ID"
 
-# Function to translate image text
+# Function to translate image text using Cloud Vision
 def translate_image(image, source_lang, target_lang):
   """
-  Extracts text from image, translates it, and returns the translated text.
+  Extracts text from image using Cloud Vision and translates it.
 
   Args:
       image: The image to translate text from.
@@ -20,9 +19,23 @@ def translate_image(image, source_lang, target_lang):
   Returns:
       The translated text.
   """
-  text = pytesseract.image_to_string(image)
+  # Create a Vision client object
+  client = vision.ImageAnnotatorClient()
+
+  # Read the image data
+  with open(image, 'rb') as image_file:
+    content = image_file.read()
+
+  # Prepare the image request
+  image = vision.Image(content=content)
+
+  # Extract text using document text detection
+  response = client.text_detection(image=image)
+  full_text = response.full_text_annotation.text
+
+  # Translate the extracted text
   translator = Translator()
-  translated_text = translator.translate(text, src=source_lang, dest=target_lang)
+  translated_text = translator.translate(full_text, src=source_lang, dest=target_lang)
   return translated_text.text
 
 # Function to translate text
@@ -43,13 +56,12 @@ def translate_text(text, source_lang, target_lang):
   return translated_text.text
 
 # Function to interact with Dialogflow chatbot
-def dialogflow_chat(text, project_id, language_code):
+def dialogflow_chat(text, language_code):
   """
   Sends user query to Dialogflow agent and returns the response.
 
   Args:
       text: The user's query.
-      project_id: Your Dialogflow project ID.
       language_code: The language code for the conversation (e.g., 'en').
 
   Returns:
@@ -84,9 +96,8 @@ if translation_mode == "Image Translation":
 
   # Translate button
   if uploaded_image is not None:
-    image = Image.open(uploaded_image)
-    translated_text = translate_image(image, source_lang, target_lang)
-    st.image(image, caption="Uploaded Image")
+    translated_text = translate_image(uploaded_image.name, source_lang, target_lang)
+    st.image(uploaded_image, caption="Uploaded Image")
     st.write(f"Translated Text: {translated_text}")
 
 # Text translation section
@@ -98,8 +109,4 @@ elif translation_mode == "Text Translation":
   target_languages = translator.get_languages()
 
   source_lang = st.selectbox("Source Language", source_languages)
-  target_lang = st.selectbox("Target Language", target_languages)
-
-  # Translate button
-  if text_to_translate:
-    translated_text = translate
+  target
