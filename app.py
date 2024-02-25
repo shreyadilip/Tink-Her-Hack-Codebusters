@@ -5,6 +5,8 @@ from googletrans import Translator
 # Replace with your Google Cloud project ID
 project_id = "aiboot-414616"
 
+translator = Translator()  # Create the translator object globally
+
 # Function to translate image text using Cloud Vision
 def translate_image(image, source_lang, target_lang):
   """
@@ -32,8 +34,7 @@ def translate_image(image, source_lang, target_lang):
   response = client.text_detection(image=image)
   full_text = response.full_text_annotation.text
 
-  # Translate the extracted text
-  translator = Translator()
+  # Translate the extracted text using the global translator object
   translated_text = translator.translate(full_text, src=source_lang, dest=target_lang)
   return translated_text.text
 
@@ -50,7 +51,7 @@ def translate_text(text, source_lang, target_lang):
   Returns:
       The translated text.
   """
-  translator = Translator()
+  # Use the global translator object
   translated_text = translator.translate(text, src=source_lang, dest=target_lang)
   return translated_text.text
 
@@ -64,7 +65,7 @@ translation_mode = st.selectbox("Choose Mode", ["Image Translation", "Text Trans
 if translation_mode == "Image Translation":
   uploaded_image = st.file_uploader("Upload image of signboard:")
 
-  # Language selection dropdowns
+  # Language selection dropdowns (using the global translator object)
   source_languages = translator.get_languages()
   target_languages = translator.get_languages()
 
@@ -81,7 +82,7 @@ if translation_mode == "Image Translation":
 elif translation_mode == "Text Translation":
   text_to_translate = st.text_area("Enter text to translate:")
 
-  # Language selection dropdowns
+  # Language selection dropdowns (using the global translator object)
   source_languages = translator.get_languages()
   target_languages = translator.get_languages()
 
