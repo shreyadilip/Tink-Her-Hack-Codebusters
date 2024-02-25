@@ -2,7 +2,7 @@ import streamlit as st
 from google.cloud import translate_v2 as translate
 
 # Replace with your Google Cloud project ID
-project_id = "your_project_id"
+project_id = "aiboot-414616"
 
 # Create a translation client
 client = translate.Client(project=project_id)
