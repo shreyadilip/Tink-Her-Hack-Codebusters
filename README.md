@@ -1,5 +1,5 @@
 # Linguify
-### This web application, named "Linguify," empowers users to translate text or images containing text from one language to another. It leverages the capabilities of Google Cloud Translation and Cloud Vision APIs.
+### This web application, named "Linguify" empowers users to translate text or images containing text from one language to another. It leverages the capabilities of Google Cloud Translation and Cloud Vision APIs.
 
 ## Set Up
  To run the application locally, follow these steps:
