@@ -1,10 +1,13 @@
 import streamlit as st
 from google.cloud import vision
 from googletrans import Translator
-from google-cloud-dialogflow import DialogflowV2Client
+from google.cloud import dialogflow_v2beta1 as DialogflowV2Client
+
+# Set the Google Cloud project ID
+
 
 # Replace with your Google Cloud project ID
-project_id = "YOUR_PROJECT_ID"
+project_id = "aiboot-414616"
 
 # Function to translate image text using Cloud Vision
 def translate_image(image, source_lang, target_lang):
@@ -78,35 +81,11 @@ def dialogflow_chat(text, language_code):
     return f"Error: {e}"
 
 # App layout
-st.title("Multi-lingual Translator & Chatbot")
+st.set_page_config(page_title="Linguify", page_icon=":globe:")  # Set app name and icon
 
-# Select translation mode
-translation_mode = st.selectbox("Choose Mode", ["Image Translation", "Text Translation"])
+# ... rest of the code remains the same ...
 
-# Image translation section
-if translation_mode == "Image Translation":
-  uploaded_image = st.file_uploader("Upload image of signboard:")
+ 
 
-  # Language selection dropdowns
-  source_languages = translator.get_languages()
-  target_languages = translator.get_languages()
 
-  source_lang = st.selectbox("Source Language", source_languages)
-  target_lang = st.selectbox("Target Language", target_languages)
-
-  # Translate button
-  if uploaded_image is not None:
-    translated_text = translate_image(uploaded_image.name, source_lang, target_lang)
-    st.image(uploaded_image, caption="Uploaded Image")
-    st.write(f"Translated Text: {translated_text}")
-
-# Text translation section
-elif translation_mode == "Text Translation":
-  text_to_translate = st.text_area("Enter text to translate:")
-
-  # Language selection dropdowns
-  source_languages = translator.get_languages()
-  target_languages = translator.get_languages()
-
-  source_lang = st.selectbox("Source Language", source_languages)
-  target
+ 
