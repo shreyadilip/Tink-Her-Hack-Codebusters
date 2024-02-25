@@ -1,4 +1,4 @@
 streamlit
-google.cloud
+google-cloud
 googletrans
-dialogflow
+google-cloud-dialogflow
