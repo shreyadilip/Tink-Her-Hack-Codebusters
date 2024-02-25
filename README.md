@@ -8,7 +8,7 @@
    
  - Install the required Python dependencies listed in requirements.txt using pip install -r requirements.txt.
  
- - Set up your Google API key by creating a .env file in the root directory and adding your key:
+ - Set up your Google Cloud project and use the project ID key by creating a .env file in the root directory.
  
  - Run the Streamlit app by executing the command streamlit run app.py in your terminal.
  
