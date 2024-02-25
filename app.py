@@ -1,6 +1,6 @@
 import streamlit as st
 from google.cloud import vision
-from googletrans import Translator
+from google-cloud-translate import Translator
 
 # Replace with your Google Cloud project ID
 project_id = "aiboot-414616"
