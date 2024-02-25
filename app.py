@@ -5,6 +5,9 @@ from googletrans import Translator
 # Replace with your Google Cloud project ID
 project_id = "aiboot-414616"
 
+# Define the translator variable
+translator = Translator()
+
 # Function to translate image text using Cloud Vision
 def translate_image(image, source_lang, target_lang):
   """
@@ -33,7 +36,6 @@ def translate_image(image, source_lang, target_lang):
   full_text = response.full_text_annotation.text
 
   # Translate the extracted text
-  translator = Translator()
   translated_text = translator.translate(full_text, src=source_lang, dest=target_lang)
   return translated_text.text
 
@@ -50,7 +52,6 @@ def translate_text(text, source_lang, target_lang):
   Returns:
       The translated text.
   """
-  translator = Translator()
   translated_text = translator.translate(text, src=source_lang, dest=target_lang)
   return translated_text.text
 
@@ -65,11 +66,8 @@ if translation_mode == "Image Translation":
   uploaded_image = st.file_uploader("Upload image of signboard:")
 
   # Language selection dropdowns
-  source_languages = translator.get_languages()
-  target_languages = translator.get_languages()
-
-  source_lang = st.selectbox("Source Language", source_languages)
-  target_lang = st.selectbox("Target Language", target_languages)
+  source_lang = st.text_input("Source Language")
+  target_lang = st.text_input("Target Language")
 
   # Translate button
   if uploaded_image is not None:
@@ -82,15 +80,10 @@ elif translation_mode == "Text Translation":
   text_to_translate = st.text_area("Enter text to translate:")
 
   # Language selection dropdowns
-  source_languages = translator.get_languages()
-  target_languages = translator.get_languages()
-
-  source_lang = st.selectbox("Source Language", source_languages)
-  target_lang = st.selectbox("Target Language", target_languages)
+  source_lang = st.text_input("Source Language")
+  target_lang = st.text_input("Target Language")
 
   # Translate button
   if st.button("Translate"):
     translated_text = translate_text(text_to_translate, source_lang, target_lang)
     st.write(f"Translated Text: {translated_text}")
-
-# ... rest of the code for layout and styling can remain ...
